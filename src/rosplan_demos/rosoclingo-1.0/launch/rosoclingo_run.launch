@@ -1,0 +1,8 @@
+<!-- <launch> -->
+<!--   <arg name="use_sim_time" value="true" /> -->
+<!--   <arg name="gui" default="true"/> -->
+
+<!--   <node pkg="rosoclingo" type="run-1.0.py" name="rosoclingo" -->
+<!--   args="--f /home/ys/2021-KR/BTROSPlan/src/rosplan_demos/rosoclingo-1.0/mailbot/instances/graph_wg.lp --f /home/ys/2021-KR/BTROSPlan/src/rosplan_demos/rosoclingo-1.0/mailbot/mailbot.lp" output="screen"/> -->
+
+<!-- </launch> -->

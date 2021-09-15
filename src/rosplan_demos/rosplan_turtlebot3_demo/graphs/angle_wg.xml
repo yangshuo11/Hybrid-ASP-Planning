@@ -1,0 +1,6 @@
+<environment>
+    <waypoint name="a1" xcoord="-90"/>
+    <waypoint name="a2" xcoord="90"/>
+    <waypoint name="a3" xcoord="-90"/>
+    <waypoint name="a4" xcoord="-180"/>
+</environment>

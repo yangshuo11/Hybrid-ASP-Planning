@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- ROSPlan turtlebot3 demo with ROSPlan -->
+    <arg name="map_file" default="$(find rosplan_turtlebot3_demo)/maps/turtlebot3_house.yaml"/>
+    <arg name="gazebo_gui" default="true"/>
+
+    <!-- turtlebot3 simulation -->
+    <include file="$(find rosplan_turtlebot3_demo)/launch/turtlebot3_bringup_sim.launch" >
+        <arg name="gazebo_gui" value="$(arg gazebo_gui)"/>
+    </include>
+
+    <!-- turtlebot3 navigation: move base, amcl (localisation) -->
+    <include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch" >
+        <arg name="map_file" value="$(arg map_file)"/>
+        <arg name="open_rviz" value="false"/>
+    </include>
+
+    <!-- roadmap (random waypoint generation) -->
+    <include file="$(find rosplan_interface_mapping)/launch/rosplan_roadmap_server.launch" />
+
+    <!-- ROSPlan -->
+    <include file="$(find rosplan_planning_system)/launch/interfaced_planning_system.launch" >
+        <arg name="domain_path" value="$(find rosplan_turtlebot3_demo)/common/domain_turtlebot_demo.pddl" />
+        <arg name="problem_path" value="" />
+        <arg name="autom_gen_problem_path" value="$(find rosplan_turtlebot3_demo)/common/problem.pddl" />
+        <arg name="data_path" value="$(find rosplan_turtlebot3_demo)/common/" />
+    </include>
+
+    <!-- rosplan move base action interface, makes link between rosplan dispatcher and hardware -->
+    <node pkg="rosplan_interface_movebase" type="rpmovebase" name="rosplan_interface_movebase" respawn="false" output="screen">
+        <param name="knowledge_base" value="rosplan_knowledge_base" />
+        <param name="action_server" value="/move_base" />
+        <param name="pddl_action_name" value="goto_waypoint" />
+        <param name="action_dispatch_topic" value="/rosplan_plan_dispatcher/action_dispatch" />
+        <param name="action_feedback_topic" value="/rosplan_plan_dispatcher/action_feedback" />
+    </node>
+
+    <!-- visualisation of robot sensor data -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rosplan_turtlebot3_demo)/config/turtlebot3.rviz" />
+
+<!--     <node pkg="rosplan_turtlebot3_demo" type="goto_action_interface.py" name="goto_action_interface" args="$(find rosplan_turtlebot3_demo)/graphs/graph_wg.xml" output="screen"/> -->
+    <node pkg="rosplan_turtlebot3_demo" type="pickup_action_interface.py" name="pickup_action_interface" output="screen"/>
+    <node pkg="rosplan_turtlebot3_demo" type="sense_action_interface.py" name="sense_action_interface" args="$(find rosplan_turtlebot3_demo)/graphs/graph_wg.xml $(find rosplan_turtlebot3_demo)/graphs/angle_wg.xml $(find rosplan_turtlebot3_demo)/graphs/vps_wg.xml" output="screen"/>
+    <node pkg="rosplan_interface_movebase" type="set_rviz_robot_pose" name="initilise_robot_pose_in_rviz" />
+
+<!--     <node pkg="rosplan_turtlebot3_demo" type="recognize_object.py" name = "camera_image_processer"/> -->
+    <node pkg="web_video_server" type="web_video_server" name="web_video_server"/>
+
+<!--      --><!-- aruco cube detection -->
+    <arg name="markerId"        default="582"/>
+    <arg name="markerSize"      default="0.034"/>
+    <arg name="eye"             default="left"/>
+    <arg name="marker_frame"    default="aruco_marker_frame"/>
+    <arg name="ref_frame"       default=""/>
+    <arg name="corner_refinement" default="LINES" />
+
+    <node pkg="aruco_ros" type="single" name="aruco_single">
+        <remap from="/camera_info" to="/camera/rgb/camera_info" />
+        <remap from="/image" to="/camera/rgb/image_raw" />
+        <param name="image_is_rectified" value="True"/>
+        <param name="marker_size"        value="$(arg markerSize)"/>
+        <param name="marker_id"          value="$(arg markerId)"/>
+        <param name="reference_frame"    value="$(arg ref_frame)"/>
+<!--         <param name="camera_frame"       value="stereo_gazebo_$(arg eye)_camera_optical_frame"/> -->
+        <param name="camera_frame"       value="base_link"/>
+        <param name="marker_frame"       value="$(arg marker_frame)" />
+        <param name="corner_refinement"  value="$(arg corner_refinement)" />
+    </node>
+
+
+
+</launch>

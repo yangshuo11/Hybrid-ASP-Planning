@@ -1,0 +1,6 @@
+<environment>
+    <waypoint name="v0" xcoord="-4.0" ycoord="5.0"/>
+    <waypoint name="v1" xcoord="-5.7" ycoord="1.6"/>
+    <waypoint name="v2" xcoord="-7.0" ycoord="1.8"/>
+    <waypoint name="v3" xcoord="-7.0" ycoord="4.3"/>
+</environment>

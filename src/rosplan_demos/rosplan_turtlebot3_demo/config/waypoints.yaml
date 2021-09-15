@@ -1,0 +1,15 @@
+rosplan_demo_waypoints:
+    # waypoints reference frame
+    waypoint_frameid: map
+
+    # waypoint 2D coordinates: x, y, theta
+    #wp0: [0.0, 0.0, 0.0]
+    #wp1: [0.0, -1.0, 0.0]
+    #wp2: [-1.0, 0.0, 0.0]
+    #wp3: [-1.0, -1.0, 0.0]
+#    wp0: [-6.4, 3.2, 0.0] # room1 left-up
+#    wp0: [-6.5, -1.4, 0.0] # room2 left-bottom
+    wp0: [-6.56, 3.32, 0.0] # room3 center-left
+    wp1: [-3.70, 3.71, 0.0]  # room4 center-center
+#    wp4: [5.0, 1.6, 0.0] # room5 center-right
+#    wp5: [6.4, -1.4, 0.0] # room6 right-bottom

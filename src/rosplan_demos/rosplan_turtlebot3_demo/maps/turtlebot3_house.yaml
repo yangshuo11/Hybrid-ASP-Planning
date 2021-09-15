@@ -1,0 +1,7 @@
+image: /home/ys/20210817-RAL-Project/RASPPlanning/src/rosplan_demos/rosplan_turtlebot3_demo/maps/turtlebot3_house.pgm
+resolution: 0.050000
+origin: [-10.000000, -10.000000, 0.000000]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
+

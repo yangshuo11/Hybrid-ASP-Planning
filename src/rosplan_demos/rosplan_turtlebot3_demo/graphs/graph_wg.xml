@@ -1,0 +1,17 @@
+<environment>
+
+<waypoint name="o0" xcoord="-4.0" ycoord="3.0"/>
+<waypoint name="o1" xcoord="-6.5" ycoord="-1.4"/>
+<waypoint name="o2" xcoord="-2.6" ycoord="1.8"/>
+<waypoint name="o3" xcoord="1.1" ycoord="3.3"/>
+<waypoint name="o4" xcoord="5.0" ycoord="1.6"/>
+<waypoint name="o5" xcoord="6.4" ycoord="-1.4"/>
+
+<waypoint name="c0" xcoord="-6.3" ycoord="0.9"/>
+<waypoint name="c1" xcoord="-5.1" ycoord="3.4"/>
+<waypoint name="c2" xcoord="1.2" ycoord="0.3"/>
+<waypoint name="c3" xcoord="2.4" ycoord="4.7"/>
+<waypoint name="c4" xcoord="6.3" ycoord="-0.1"/>
+
+
+</environment>

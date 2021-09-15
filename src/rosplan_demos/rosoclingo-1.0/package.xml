@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<package>
+  <name>rosoclingo</name>
+  <version>1.0.0</version>
+  <description>The rosoclingo package</description>
+
+  <!-- One maintainer tag required, multiple allowed, one person per tag --> 
+  <maintainer email="bandres@cs.uni-potsdam.de">Benjamin Andres</maintainer>
+
+  <!-- One license tag required, multiple allowed, one license per tag -->
+  <license>GPLv2</license>
+
+  <!-- Url tags are optional, but mutiple are allowed, one per tag -->
+  <url type="website">http://www.cs.uni-potsdam.de/rosoclingo/</url>
+
+  <!-- Author tags are optional, mutiple are allowed, one per tag -->
+  <author email="bandres@cs.uni-potsdam.de">Benjamin Andres</author>
+  <author email="daver@cse.unsw.edu.au">David Rajaratnam</author>
+
+  <!-- The *_depend tags are used to specify dependencies -->
+  <!-- Dependencies can be catkin packages or system dependencies -->
+  <!-- Examples: -->
+  <!-- Use build_depend for packages you need at compile time: -->
+  <!--   <build_depend>message_generation</build_depend> -->
+  <!-- Use buildtool_depend for build tool packages: -->
+  <!--   <buildtool_depend>catkin</buildtool_depend> -->
+  <!-- Use run_depend for packages you need at runtime: -->
+  <!--   <run_depend>message_runtime</run_depend> -->
+  <!-- Use test_depend for packages you need only for testing: -->
+  <!--   <test_depend>gtest</test_depend> -->
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>actionlib_msgs</build_depend>
+  <build_depend>message_generation</build_depend>
+  <run_depend>actionlib_msgs</run_depend>
+  <run_depend>message_runtime</run_depend>
+<!--  <run_depend>gringo.so</run_depend> -->
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+  </export>
+</package>

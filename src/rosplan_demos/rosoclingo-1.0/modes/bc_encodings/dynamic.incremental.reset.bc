@@ -1,0 +1,207 @@
+<asp>
+#const steps = 20.
+#const r = 5.
+start(0).
+end(steps).
+reset_horizon(r).
+time_step(S..E) :- start(S), end(E).
+next(X,X+1) :- time_step(X), time_step(X+1).
+minus(X,X-R) :- time_step(X), reset_horizon(R), X-R >= 0.
+minus(X,0) :- time_step(X), reset_horizon(R), X-R < 0.
+
+external(result(sat)).
+external(result(unsat)).
+external(pending_actions).
+external(new_messages).
+
+save(meta(g,G)) :- time_step(G).
+save(meta(c,C)) :- time_step(C).
+save(meta(h,H)) :- time_step(H).
+save(situation(grounded)).
+save(situation(released_step)).
+save(situation(no_query)).
+save(situation(ready)).
+save(situation(solved)).
+save(situation(done)).
+save(situation(updated)).
+save(situation(committed)).
+save(situation(reseted)).
+
+#external event(info,E,0) : external(E).
+#external event(save,F,0) : save(F).
+
+holds(val(F,true),0) :- event(info,F,0).
+holds(val(F,true),0) :- event(save,F,0).
+
+#show.
+#show holds(val(F,true),1) : holds(val(F,true),1), save(F).
+%#show event(save,F,0) : holds(val(F,true),1), save(F).
+#show do(controller,initialize,1)                       : do(act(initialize),1).
+#show do(controller,release_step(G),1)                  : do(act(release_step),1),          holds(val(meta(g,G),true),0).
+#show do(controller,ground(G+1),1)                      : do(act(ground),1),                holds(val(meta(g,G),true),0).
+#show do(controller,assign_external(query(H),Value),1)  : do(act(assign_external(Value)),1), holds(val(meta(h,H),true),0).
+#show do(controller,solve,1)                            : do(act(solve),1).
+#show do(controller,exit,1)                             : do(act(exit),1).
+#show do(controller,status_update(C),1)                 : do(act(status_update),1),         holds(val(meta(c,C),true),0), holds(val(situation(solved),true),0).
+#show do(controller,status_update(C+1),1)               : do(act(status_update),1),         holds(val(meta(c,C),true),0), holds(val(situation(committed),true),0).
+#show do(controller,commit_actions(C),1)                : do(act(commit_actions),1),        holds(val(meta(c,C),true),0).
+#show do(controller,assign_messages(C),1)               : do(act(assign_messages),1),       holds(val(meta(c,C),true),0).
+#show do(controller,reset(C-1),1)                       : do(act(reset),1),                 holds(val(meta(c,C),true),0).
+#show do(controller,idle,1)                             : do(act(idle),1).
+</asp>
+
+<action> initialize.
+<action> release_step.
+<action> ground.
+<action> assign_external(true).
+<action> assign_external(false).
+<action> solve.
+<action> exit.
+<action> status_update.
+<action> commit_actions.
+<action> assign_messages.
+<action> reset.
+<action> idle.
+
+%%%%%
+
+<fluent> F <where> external(F).
+<fluent> F <where> save(F).
+<fluent> possible(A) <where> <action> A.
+<fluent> situation(initialize).
+
+<fluent> executing.
+
+%%%%%
+
+<default> -possible(A) <where> <action> A.
+<default> -state(S) <where> <fluent> state(S).
+<default> -F <where> external(F).
+<default> situation(initialize).
+<default> -executing.
+
+<inertial> F <where> save(F).
+<initially> -F <where> save(F).
+
+%%%%%
+
+-situation(initialize) <if> situation(F) <where> save(situation(F)).
+executing <if> A <where> <action> A.
+
+%%%%%
+
+possible(initialize)                <if> situation(initialize).
+possible(assign_external(true))     <if> situation(grounded), meta(g,G) <where> time_step(G), reset_horizon(R), G<R.
+possible(assign_external(true))     <if> situation(released_step).
+possible(assign_external(true))     <if> situation(no_query), meta(h,H), meta(g,G) <where> time_step(H), time_step(G), H<G.
+possible(release_step)              <if> situation(grounded), meta(g,G) <where> time_step(G), reset_horizon(R), G>=R.
+possible(solve)                     <if> situation(ready).
+possible(assign_messages)           <if> situation(solved), new_messages.
+possible(assign_messages)           <if> situation(committed), new_messages.
+possible(exit)                      <if> situation(solved), result(unsat), -new_messages, meta(c,C), meta(h,H) <where> time_step(C), time_step(H), end(E), H=E, C=0.
+possible(reset)                     <if> situation(solved), result(unsat), -new_messages, meta(c,C), meta(h,H) <where> time_step(C), time_step(H), end(E),
+H=E, C>0.
+
+% possible(reset)                     <if> situation(committed), -pending_actions, meta(c,C) <where> time_step(C), reset_horizon(R), C=R.
+possible(reset)                     <if> situation(updated), meta(c,C) <where> time_step(C), reset_horizon(R), C=R.
+
+possible(assign_external(false))    <if> situation(solved), result(unsat), -new_messages, meta(h,H) <where> time_step(H), end(E),
+H<E.
+possible(assign_external(false))    <if> situation(reseted).
+possible(ground)                    <if> situation(no_query), meta(h,H), meta(g,G) <where> time_step(H), time_step(G), H>=G.
+possible(status_update)             <if> situation(solved), result(sat), -new_messages.
+possible(status_update)             <if> situation(committed), -pending_actions, meta(c,C), meta(h,H) <where> time_step(C), time_step(H), C<H.
+possible(commit_actions)            <if> situation(updated), meta(c,C) <where> time_step(C), reset_horizon(R), C<R.
+possible(idle)                      <if> situation(committed), pending_actions, -new_messages.
+possible(idle)                      <if> situation(committed), -pending_actions, -new_messages, meta(c,C), meta(h,H) <where> time_step(C), time_step(H), C=H.
+
+%%%%%
+
+% initialize
+situation(grounded)     <after> initialize.
+-situation(initialize)  <after> initialize.
+meta(g,0)               <after> initialize.
+meta(c,0)               <after> initialize.
+meta(h,0)               <after> initialize.
+
+% assign_external(true)
+situation(ready) <after> assign_external(true).
+-situation(grounded) <after> assign_external(true).
+-situation(released_step) <after> assign_external(true).
+-situation(no_query) <after> assign_external(true).
+
+% assign_external(false)
+situation(no_query) <after> assign_external(false).
+-situation(solved) <after> assign_external(false).
+-situation(reseted) <after> assign_external(false).
+meta(h,H2) <after> assign_external(false), situation(solved), meta(h,H1) <where> next(H1,H2).
+meta(h,H2) <after> assign_external(false), situation(reseted), meta(h,H1) <where> minus(H1,H2).
+-meta(h,H) <after> assign_external(false), meta(h,H) <where> time_step(H).
+
+% solve
+situation(solved) <after> solve.
+-situation(ready) <after> solve.
+
+% assign_messages
+situation(ready) <after> assign_messages.
+-situation(solved) <after> assign_messages.
+-situation(committed) <after> assign_messages.
+
+% exit
+situation(done) <after> exit.
+-situation(solved) <after> exit.
+
+% ground
+situation(grounded)         <after> ground.
+-situation(no_query)        <after> ground.
+meta(g,G2)                  <after> ground, meta(g,G1) <where> next(G1,G2).
+-meta(g,G)                  <after> ground, meta(g,G) <where> time_step(G).
+
+% status_update
+situation(updated) <after> status_update.
+-situation(solved) <after> status_update.
+-situation(committed) <after> status_update.
+meta(c,C2) <after> status_update, situation(committed), meta(c,C1) <where> next(C1,C2).
+-meta(c,C) <after> status_update, situation(committed), meta(c,C) <where> time_step(C).
+
+% commit_actions
+situation(committed) <after> commit_actions.
+-situation(updated) <after> commit_actions.
+
+% release_step
+situation(released_step) <after> release_step.
+-situation(grounded) <after> release_step.
+
+% reset
+situation(reseted) <after> reset, situation(updated).
+situation(ready) <after> reset, situation(solved).
+meta(c,0) <after> reset.
+-meta(c,C) <after> reset, meta(c,C) <where> time_step(C).
+-situation(updated) <after> reset, situation(updated).
+-situation(solved) <after> reset, situation(solved).
+
+%%%%%
+
+<nonexecutable> -executing.
+<nonexecutable> A <if> -possible(A) <where> <action> A.
+
+% BC 
+<asp>
+step(0..1).
+{holds(F,0)} :- initially(F).
+{do(A,T) : action(A)} :- step(T), T > 0.
+
+holds(A,T-1)        :-  do(A,T).
+holds(F,T)          :-  static_law(ID), head(ID,F), step(T),
+                        holds(C,T) : if(ID,C);
+                        not not holds(C,T) : ifcons(ID,C).
+holds(F,T)          :-  dynamic_law(ID), head(ID,F), step(T),
+                        holds(A,T-1) : after(ID,A);
+                        not not holds(C,T) : ifcons(ID,C).
+{holds(val(F,V),T)} :-  inertial(F), step(T), holds(val(F,V),T-1).
+{holds(F,T)}        :-  default(F), step(T).
+
+:- fluent(F), step(T), not 1{holds(val(F,_),T)}1.
+:- impossible(ID,_), step(T), holds(C,T) : impossible(ID,C).
+:- nonexecutable(ID,_), step(T), holds(A,T-1) : nonexecutable(ID,A); holds(C,T) : nonexecutable_if(ID,C).
+</asp>

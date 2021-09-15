@@ -1,0 +1,141 @@
+<asp>
+#const steps = 20.
+start(0).
+end(steps).
+time_step(S..E) :- start(S), end(E).
+next(X,X+1) :- time_step(X), time_step(X+1).
+
+external(result(sat)).
+external(result(unsat)).
+
+save(meta(g,G)) :- time_step(G).
+save(situation(grounded)).
+save(situation(released_step)).
+save(situation(released_query)).
+save(situation(ready)).
+save(situation(solved)).
+save(situation(done)).
+
+#external event(info,E,0) : external(E).
+#external event(save,F,0) : save(F).
+
+holds(val(F,true),0) :- event(info,F,0).
+holds(val(F,true),0) :- event(save,F,0).
+
+#show.
+#show holds(val(F,true),1) : holds(val(F,true),1), save(F).
+%#show event(save,F,0) : holds(val(F,true),1), save(F).
+#show do(controller,initialize,1)                       : do(act(initialize),1).
+#show do(controller,release_step(G),1)                  : do(act(release_step),1),          holds(val(meta(g,G),true),0).
+#show do(controller,release_external(query(G)),1)       : do(act(release_external),1),      holds(val(meta(g,G),true),0).
+#show do(controller,ground(G+1),1)                      : do(act(ground),1),                holds(val(meta(g,G),true),0).
+#show do(controller,assign_external(query(G),true),1)   : do(act(assign_external(true)),1), holds(val(meta(g,G),true),0).
+#show do(controller,solve,1)                            : do(act(solve),1).
+#show do(controller,publish,1)                          : do(act(publish),1).
+#show do(controller,exit,1)                             : do(act(exit),1).
+
+</asp>
+
+<action> initialize.
+<action> release_step.
+<action> release_external.
+<action> ground.
+<action> assign_external(true).
+<action> solve.
+<action> publish.
+<action> exit.
+
+%%%%%
+
+<fluent> F <where> external(F).
+<fluent> F <where> save(F).
+<fluent> possible(A) <where> <action> A.
+<fluent> situation(initialize).
+
+<fluent> executing.
+
+%%%%%
+
+<default> -possible(A) <where> <action> A.
+<default> -state(S) <where> <fluent> state(S).
+<default> -F <where> external(F).
+<default> situation(initialize).
+<default> -executing.
+
+<inertial> F <where> save(F).
+<initially> -F <where> save(F).
+
+%%%%%
+
+-situation(initialize) <if> situation(F) <where> save(situation(F)).
+executing <if> A <where> <action> A.
+
+%%%%%
+
+possible(initialize)                <if> situation(initialize).
+possible(release_step)              <if> situation(grounded).
+possible(assign_external(true))     <if> situation(released_step).
+possible(solve)                     <if> situation(ready).
+possible(exit)                      <if> situation(solved), result(unsat),  meta(g,G)   <where> time_step(G), end(E), G=E.
+possible(release_external)          <if> situation(solved), result(unsat),  meta(g,G)   <where> time_step(G), end(E), G<E.
+possible(ground)                    <if> situation(released_query).
+possible(publish)                   <if> situation(solved), result(sat).
+
+%%%%%
+
+% initialize
+situation(grounded)     <after> initialize.
+-situation(initialize)  <after> initialize.
+meta(g,0)               <after> initialize.
+
+% release_step
+situation(released_step) <after> release_step.
+-situation(grounded) <after> release_step.
+
+% release_external
+situation(released_query) <after> release_external. 
+-situation(solved) <after> release_external.
+
+% ground
+situation(grounded)         <after> ground.
+-situation(released_query)  <after> ground.
+meta(g,G2)                  <after> ground, meta(g,G1) <where> next(G1,G2).
+-meta(g,G)                  <after> ground, meta(g,G) <where> time_step(G).
+
+% assign_external(true)
+situation(ready) <after> assign_external(true).
+-situation(released_step) <after> assign_external(true).
+
+% solve
+situation(solved) <after> solve.
+-situation(ready) <after> solve.
+
+% exit
+situation(done) <after> exit.
+-situation(solved) <after> exit.
+
+%%%%%
+
+<nonexecutable> -executing.
+<nonexecutable> A <if> -possible(A) <where> <action> A.
+
+% BC 
+<asp>
+step(0..1).
+{holds(F,0)} :- initially(F).
+{do(A,T) : action(A)} :- step(T), T > 0.
+
+holds(A,T-1)        :-  do(A,T).
+holds(F,T)          :-  static_law(ID), head(ID,F), step(T),
+                        holds(C,T) : if(ID,C);
+                        not not holds(C,T) : ifcons(ID,C).
+holds(F,T)          :-  dynamic_law(ID), head(ID,F), step(T),
+                        holds(A,T-1) : after(ID,A);
+                        not not holds(C,T) : ifcons(ID,C).
+{holds(val(F,V),T)} :-  inertial(F), step(T), holds(val(F,V),T-1).
+{holds(F,T)}        :-  default(F), step(T).
+
+:- fluent(F), step(T), not 1{holds(val(F,_),T)}1.
+:- impossible(ID,_), step(T), holds(C,T) : impossible(ID,C).
+:- nonexecutable(ID,_), step(T), holds(A,T-1) : nonexecutable(ID,A); holds(C,T) : nonexecutable_if(ID,C).
+</asp>
