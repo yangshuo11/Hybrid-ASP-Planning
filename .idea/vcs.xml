@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/complex_maze_navigation" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/aruco_ros" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/backward_ros" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/custom_end_effector" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/ddynamic_reconfigure_python" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/dynamic_introspection" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/gazebo_ros_pkgs" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/head_action" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/hey5_description" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/pal_gazebo_plugins" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/pal_gazebo_worlds" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/pal_gripper" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/pal_hardware_gazebo" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/pal_hardware_interfaces" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/pal_msgs" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/pal_navigation_cfg_public" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/pal_navigation_sm" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/pal_python" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/pal_statistics" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/pal_wsg_gripper" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/play_motion" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/pmb2_navigation" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/pmb2_robot" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/pmb2_simulation" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/robot_pose" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/roboticsgroup_gazebo_plugins" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/ros_control" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/ros_controllers" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/rviz_plugin_covariance" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/simple_grasping_action" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/simple_models_robot" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/teleop_tools" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/tf_lookup" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/tiago_description_calibration" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/tiago_moveit_config" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/tiago_navigation" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/tiago_robot" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/tiago_simulation" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/tiago_base/tiago_tutorials" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/rosplan_demos/web_video_server" vcs="Git" />
+  </component>
+</project>
