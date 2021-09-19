@@ -4,9 +4,9 @@
 The demonstration video of experimental details is as follows: (upon completion)
 
 
+[![Experimental demo for Hybrid-ASP](https://res.cloudinary.com/marcomontalbano/image/upload/v1632073027/video_to_markdown/images/youtube--GyPac81eDjs-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/GyPac81eDjs "Experimental demo for Hybrid-ASP")
 
 
 
 
-https://user-images.githubusercontent.com/15105166/133896798-54185bfc-2349-4dfc-87d6-9e6b917cf9b5.mov
 
