@@ -1,7 +1,7 @@
 # Hybrid-ASP-Planning
 
 
-Installation
+# Installation
 
 1. Essential ros packages for Turtlebot3 simulation in Gazebo
 
