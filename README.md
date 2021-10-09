@@ -24,7 +24,7 @@ scons --build-dir=release pyclingo
 add to ~/.bashrc the line - replacing ${GRINGO_PATH} with the path to the gringo-4.5.4 source folder:
 PYTHONPATH=$PYTHONPATH:${GRINGO_PATH}/build/release/python/
 
-Running steps
+# Running steps
 
 1. launch the turtlebo3 gazebo controller
 roslaunch rosplan_turtlebot3_demo turtlebot_main.launch
@@ -35,6 +35,5 @@ The demonstration video of experimental details is as follows:
 
 [![Experimental demo for Hybrid-ASP planning](https://res.cloudinary.com/marcomontalbano/image/upload/v1632130243/video_to_markdown/images/youtube--2WkFsKWoYWI-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/2WkFsKWoYWI "Experimental demo for Hybrid-ASP planning")
 
-
-
+Contact email: 1024809808@qq.com
 
