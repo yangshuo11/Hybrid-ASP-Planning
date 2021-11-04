@@ -27,12 +27,12 @@ sudo apt-get install bison re2c scons
 
 4. Install gringo python module(4.5.4) (https://sourceforge.net/projects/potassco/files/gringo/4.5.4/).
 Download the file and unpack the archive, and do the following steps:
-
+```bash
 scons configure --build-dir=release
 scons --build-dir=release pyclingo
 add to ~/.bashrc the line - replacing ${GRINGO_PATH} with the path to the gringo-4.5.4 source folder:
 PYTHONPATH=$PYTHONPATH:${GRINGO_PATH}/build/release/python/
-
+```
 # Running steps
 
 1. launch the turtlebo3 gazebo controller
