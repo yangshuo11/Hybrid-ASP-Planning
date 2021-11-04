@@ -1,5 +1,7 @@
 # Hybrid-ASP-Planning
 
+This repository presents the Hybrid-ASP planning approach that facilitates task planning with missing task-relevant information. 
+
 
 # Installation
 
