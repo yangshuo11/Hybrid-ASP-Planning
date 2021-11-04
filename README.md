@@ -1,7 +1,10 @@
 # Hybrid-ASP-Planning
 
-This repository presents the Hybrid-ASP planning approach that facilitates task planning with missing task-relevant information. 
+This repository presents the Hybrid-ASP planning approach that facilitates task planning with missing task-relevant information. It integrates
+a deterministic task planner POPF for generating an initially valid task plan for task achievement and a logic-based Answer Set Planner to make observation plans. 
 
+# Requirements
+Ubuntu 16.04 + ROS Kinetic 
 
 # Installation
 
