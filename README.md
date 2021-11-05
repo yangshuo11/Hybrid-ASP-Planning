@@ -87,7 +87,7 @@ roslaunch rosplan_turtlebot3_demo turtlebot_main.launch
 rosrun rosoclingo-1.0 run-1.0.py --file ../mailbot/instances/graph_wp.lp --file ../mailbot/turtlebot3_asp_model.lp
 
 
-# Demonstration videoes
+# Demonstration videos
 
 1. The demonstration video of experimental details for the indoor navigation task domain is as follows:
 
