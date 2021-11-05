@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<package>
+  <name>rosplan_tiago_demo</name>
+  <version>1.0.0</version>
+  <description>
+    Simple exporation mission ROSPlan demo in Gazebo with turtlebot3.
+  </description>
+
+  <maintainer email="oscar.lima@dfki.de">Oscar Lima</maintainer>
+
+  <license>BSD</license>
+  <url type="website">http://github.com/KCL-Planning/rosplan_demos</url>
+  <author email="oscar.lima@dfki.de">Oscar Lima</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>std_srvs</build_depend>
+  <build_depend>diagnostic_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>move_base_msgs</build_depend>
+  <build_depend>rosplan_dispatch_msgs</build_depend>
+  <build_depend>rosplan_knowledge_msgs</build_depend>
+  <build_depend>rosplan_planning_system</build_depend>
+  <build_depend>rosplan_interface_movebase</build_depend>
+  <build_depend>actionlib</build_depend>
+  <build_depend>tf2</build_depend>
+  <build_depend>message_generation</build_depend>
+  <build_depend>genmsg</build_depend>
+  <build_depend>actionlib_msgs</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>roslib</build_depend>
+  <build_depend>tf</build_depend>
+  <build_depend>move_base</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>image_transport</build_depend>
+  <build_depend>gazebo_msgs</build_depend>
+  <build_depend>control_msgs</build_depend>
+
+
+  <run_depend>roscpp</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>std_srvs</run_depend>
+  <run_depend>diagnostic_msgs</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>move_base_msgs</run_depend>
+  <run_depend>rosplan_dispatch_msgs</run_depend>
+  <run_depend>rosplan_knowledge_msgs</run_depend>
+  <run_depend>rosplan_planning_system</run_depend>
+  <run_depend>rosplan_interface_movebase</run_depend>
+  <run_depend>actionlib</run_depend>
+  <run_depend>tf2</run_depend>
+  <run_depend>message_generation</run_depend>
+  <run_depend>message_runtime</run_depend>
+  <run_depend>genmsg</run_depend>
+  <run_depend>actionlib_msgs</run_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>roslib</run_depend>
+  <run_depend>tf</run_depend>
+  <run_depend>move_base</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>image_transport</run_depend>
+  <run_depend>gazebo_msgs</run_depend>
+  <run_depend>control_msgs</run_depend>
+
+  <run_depend>turtlebot3_gazebo</run_depend>
+  <run_depend>turtlebot3_navigation</run_depend>
+  <run_depend>dwa_local_planner</run_depend>
+  <run_depend>move_base_msgs</run_depend>
+
+
+
+</package>

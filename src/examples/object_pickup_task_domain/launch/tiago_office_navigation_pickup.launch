@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <arg name="namespace" default="/"/>
+  <arg name="public_sim"   default="true"/>
+
+  <arg name="robot"  default="steel"/>
+  <arg name="arm"  default="$(eval {'iron': False}.get(arg('robot'), True))"/>
+  <arg name="end_effector"  default="$(eval {'iron': 'false', 'steel': 'pal-gripper', 'titanium': 'pal-hey5'}.get(arg('robot'), 'pal-gripper'))"/>
+  <arg name="ft_sensor"  default="$(eval {'titanium': 'schunk-ft'}.get(arg('robot'), 'false'))"/>
+  <arg name="laser_model"  default="sick-571"/>
+  <arg name="camera_model"  default="orbbec-astra"/>
+  <arg name="tuck_arm"  default="true"/>
+  <arg name="planner"        default="base"/>
+  <arg name="global_planner" default="global_planner"/>
+  <arg name="local_planner"  default="$(eval 'teb' if arg('public_sim') else 'pal')"/>
+  <arg name="localization"   default="amcl"/>
+  <arg name="map"            default="$(find rosplan_tiago_demo)/maps"/>
+
+  <arg name="rviz"     default="true"/>
+  <arg name="gzclient" default="true"/>
+  <arg name="recording" default="false"/>
+  <arg name="extra_gazebo_args" default=""/>
+
+  <arg name="advanced_navigation"   default="false"/> <!-- Requires extra software from PAL Robotics-->
+
+  <arg name="sim_sufix" value="_public_sim"     if="$(arg public_sim)"/>
+  <arg name="sim_sufix" value=""                unless="$(arg public_sim)"/>
+
+  <env name="PAL_HOST" value="tiago" />
+
+  <node name="update_maps_link" pkg="pal_navigation_sm" type="base_maps_symlink.sh" args="tiago_maps"/>
+
+  <group ns="$(arg namespace)">
+
+    <include file="$(find rosplan_tiago_demo)/launch/tiago_office_world.launch">
+    </include>
+
+    <include file="$(find tiago_2dnav_gazebo)/launch/navigation.launch">
+      <arg name="state"          value="localization"/>
+      <arg name="planner"        value="$(arg planner)"/>
+      <arg name="global_planner" value="$(arg global_planner)"/>
+      <arg name="local_planner"  value="$(arg local_planner)"/>
+      <arg name="localization"   value="$(arg localization)"/>
+      <arg name="map"            value="$(arg map)"/>
+      <arg name="public_sim"     value="$(arg public_sim)"/>
+      <arg name="rgbd_sensors"   value="$(arg advanced_navigation)"/>
+      <arg name="laser_model"    value="$(arg laser_model)"/>
+    </include>
+
+   <group if="$(arg advanced_navigation)">
+      <node name="rviz" pkg="rviz" type="rviz" if="$(arg rviz)"
+            args="-d $(find tiago_2dnav)/config/rviz/advanced_navigation.rviz"/>
+   </group>
+
+     <group unless="$(arg advanced_navigation)">
+      <node name="rviz" pkg="rviz" type="rviz" if="$(arg rviz)"
+            args="-d $(find tiago_2dnav)/config/rviz/navigation$(arg sim_sufix).rviz"/> <!-- _public_sim -->
+    </group>
+  </group>
+
+  <group unless="$(arg public_sim)">
+    <include file="$(find pal_loc_measure)/launch/pal_loc_measure.launch">
+      <arg name="training" value="False"/>
+    </include>
+  </group>
+
+  <!-- pointcloud to laserscan-->
+  <group if="$(arg public_sim)">
+    <include file="$(find tiago_laser_sensors)/launch/rgbd_cloud_laser.launch">
+      <arg name="cloud" value="/xtion/depth_registered/points"/>
+    </include>
+  </group>
+
+  <group if="$(arg advanced_navigation)">
+    <!-- Advanced navigation -->
+    <include file="$(find pal_head_manager)/launch/tiago_head_manager.launch"/>
+    <node pkg="tiago_2dnav" type="navigation_camera_mgr.py" name="navigation_camera_mgr" />
+    <node pkg="pal_zoi_detector" type="zoi_detector_node" name="zoi_detector" />
+    <include file="$(find pal_waypoint)/launch/pal_waypoint.launch"/>
+    <include file="$(find pal_navigation_manager)/launch/poi_navigation_server.launch"/>
+    <include file="$(find tiago_laser_sensors)/launch/rgbd_cloud_laser.launch">
+      <arg name="cloud"  value="/xtion/depth_registered/points"/>
+    </include>
+    <include file="$(find pal_map_utils)/launch/map_configuration_server.launch">
+      <env name="PAL_HOST" value="tiagoc"/>
+    </include>
+  </group>
+
+
+    <!-- gripper movement planning server -->
+    <!-- Load definition of pregrasp motion into play_motion namespace -->
+  <rosparam command="load" file="$(find tiago_pick_demo)/config/pick_motions.yaml" />
+    <!-- Pick & place server -->
+  <node name="pick_and_place_server" pkg="tiago_pick_demo" type="pick_and_place_server.py" output="screen">
+       <rosparam command="load" file="$(find tiago_pick_demo)/config/pick_and_place_params.yaml" />
+       <param name="object_width"  value="0.05" />
+       <param name="object_height" value="0.1" />
+       <param name="object_depth"  value="0.05" />
+  </node>
+    <!-- Node exposing service to start looking for the object and trigger the picking -->
+  <node name="pick_client" pkg="tiago_pick_demo" type="pick_client.py" output="screen"/>
+  <group if="$(arg rviz)">
+      <node name="pick_demo_rviz" pkg="rviz" type="rviz" args="-d $(find tiago_pick_demo)/config/rviz/tiago_pick_demo.rviz" />
+  </group>
+
+    <!-- ROSPlan -->
+  <include file="$(find rosplan_planning_system)/launch/interfaced_planning_system.launch" >
+    <arg name="domain_path" value="$(find rosplan_tiago_demo)/common/graspDomain.pddl" />
+    <arg name="problem_path" value="$(find rosplan_tiago_demo)/common/graspProblem.pddl" />
+    <arg name="autom_gen_problem_path" value="$(find rosplan_tiago_demo)/common/grasp_gen_problem.pddl" />
+    <arg name="data_path" value="$(find rosplan_tiago_demo)/common/" />
+  </include>
+
+
+<!--   <node pkg="rosplan_tiago_demo" type="tiago_sense_action_interface.py" name="tiago_sense_action_interface" -->
+<!--     args="$(find rosplan_tiago_demo)/graphs/position_grasp.xml -->
+<!--           $(find rosplan_tiago_demo)/graphs/angle_grasp.xml -->
+<!--           $(find rosplan_tiago_demo)/graphs/viewpoint_grasp.xml" -->
+<!--     output="screen"/> -->
+
+<!--   <node pkg="rosplan_tiago_demo" type="tiago_sense_action_interface.py" name="sense_action_interface" args="$(find rosplan_tiago_demo)/graphs/viewpoint_grasp.xml $(find rosplan_tiago_demo)/graphs/angle_grasp.xml $(find rosplan_tiago_demo)/graphs/position_grasp.xml" output="screen"/> -->
+<!--   <node pkg="rosplan_tiago_demo" type="tiago_sense_action_interface.py" name="tiago_sense_action_interface" output="screen"/> -->
+
+
+<!--   <node name = "adjoint_obs_action" pkg = "rosplan_tiago_demo" type = "adjoint_obs_action_node"/> -->
+
+<!--   <include file="$(find rosplan_tiago_demo)/launch/tiago_office_roadmap_server.launch"/> -->
+
+<!--   <node name="initilise_tiago_pose_in_rviz" pkg="rosplan_tiago_demo" type="set_rviz_initial_tiago_pose"/> -->
+
+  <node name="set_gazebo_tiago_cube_pose" pkg="rosplan_tiago_demo" type="set_gazebo_tiago_cube_pose"/>
+
+</launch>
