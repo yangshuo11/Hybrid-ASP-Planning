@@ -20,12 +20,16 @@ A detailed description regarding the installation and configuration of Turtlebot
 
 2. Install essential ros packages for ROSPlan framework
 
-sudo apt install flex bison freeglut3-dev libbdd-dev python-catkin-tools ros-kinetic-tf2-bullet
+The ROSPlan framework provides a generic method for task planning in a ROS system. We utilize the POPF planner that embedded as one PlannerInterface for task-achievement goal planning. It is thus essential to install the basic packages of ROSPlan.
 
-3. Essential libraries for ROSClingo 
+The detailed description regarding the core library of ROSPlan framework can be found at https://github.com/KCL-Planning/ROSPlan, and the repository for ROSPlan demos of turtlebot3 navigation can be found at https://github.com/KCL-Planning/rosplan_demos. Both repository need to be installed for futher steps. 
+Note: In our repository, we have modified the ActionInterface and the DispatchInterface for implementing the extra plan execution monitoring functions.
 
-sudo apt-get install gcc-4.8 g++-4.8
-sudo apt-get install bison re2c scons
+3. Install the essential libraries for ros(o)clingo 
+
+The ros(o)clingo provides a generic way by which an ASP program may be used within the popular open-source Robot Operating System (ROS).To be more precise, the ros(o)cling package integrates the ASP solver clingo 4 into the ROS service and actionlib architecture. The ros(o)cling package is specialized for the purpose of (interactive) task planning for robots. By running as a ROS actionlib ROSoClingo provides an elegant way to processes observations and requests issued. ros(o)cling provides a number of solving modes specialized for different user scenarios and allows for an easy customation of the solving precedure.
+
+## Setup necessary libraries
 
 4. Install gringo python module(4.5.4) (https://sourceforge.net/projects/potassco/files/gringo/4.5.4/).
 Download the file and unpack the archive, and do the following steps:
