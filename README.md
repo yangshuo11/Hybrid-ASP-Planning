@@ -31,7 +31,7 @@ The ros(o)clingo provides a generic way by which an ASP program may be used with
 
 ### Setup necessary libraries
 
-#### install the basic compilers and parsers
+#### Install the basic compilers and parsers
 ```bash
 sudo apt-get install gcc-4.8 <br>
 sudo apt-get install g++-4.8
@@ -39,16 +39,46 @@ sudo apt-get install bison
 sudo apt-get install re2c
 sudo apt-get install scons
 ```
-
-
-4. Install gringo python module(4.5.4) (https://sourceforge.net/projects/potassco/files/gringo/4.5.4/).
-Download the file and unpack the archive, and do the following steps:
+#### Download and build gringo.so python module
+To get the gringo python module (4.5.4), please visit https://sourceforge.net/projects/potassco/files/gringo/4.5.4/ and download the gringo files. Unpack the archive, cd into the unpacked folder (gringo-4.5.4-source), and do the following:
 ```bash
 scons configure --build-dir=release
+```
+Then configure the build/release.py file. Assuming you are using python2.7 and it is located in /usr/include/python2.7 modify the following variables in build/release.py:
+```bash
+CPPPATH = ['/usr/include/python2.7']
+WITH_PYTHON = 'python2.7'
+WITH_TBB = 'tbb'
+```
+Now run:
+```bash
 scons --build-dir=release pyclingo
-add to ~/.bashrc the line - replacing ${GRINGO_PATH} with the path to the gringo-4.5.4 source folder:
+```
+Finally, add to ~/.bashrc the line - replacing ${GRINGO_PATH} with the path to the gringo-4.5.4 source folder:
+```bash
 PYTHONPATH=$PYTHONPATH:${GRINGO_PATH}/build/release/python/
 ```
+
+#### Build ROSClingo
+```bash
+cd ${CATKIN_PATH}/src
+wget https://www.cs.uni-potsdam.de/wv/projects/rosoclingo/rosclingo-2.0.tar.xz
+tar -zxvf rosclingo.tar.gz
+cd ..
+catkin_make
+```
+#### Install ROSoClingo
+
+After ROSClingo is installed correctly download and install ROSoClingo - replacing ${CATKIN_PATH} with the path for your catkin workspace:
+```bash
+cd ${CATKIN_PATH}/src
+wget https://www.cs.uni-potsdam.de/wv/projects/rosoclingo/rosoclingo-2.0.tar.xz
+tar -zxvf rosoclingo.tar.gz
+cd ..
+catkin_make
+```
+For more detailed description regarding the installation and usages of ros(o)clingo, please refer to https://www.cs.uni-potsdam.de/wv/rosoclingo/.
+
 # Running steps
 
 1. launch the turtlebo3 gazebo controller
@@ -56,9 +86,16 @@ roslaunch rosplan_turtlebot3_demo turtlebot_main.launch
 2. launch the ASP solver
 rosrun rosoclingo-1.0 run-1.0.py --file ../mailbot/instances/graph_wp.lp --file ../mailbot/turtlebot3_asp_model.lp
 
-The demonstration video of experimental details is as follows:
+
+# Demonstration videoes
+
+1. The demonstration video of experimental details for the indoor navigation task domain is as follows:
 
 [![Experimental demo for Hybrid-ASP planning](https://res.cloudinary.com/marcomontalbano/image/upload/v1632130243/video_to_markdown/images/youtube--2WkFsKWoYWI-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/2WkFsKWoYWI "Experimental demo for Hybrid-ASP planning")
+
+2. The demonstration video of new task domain of object pickup is as follows:
+
+
 
 Contact email: 1024809808@qq.com
 
