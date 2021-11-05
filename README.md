@@ -31,6 +31,16 @@ The ros(o)clingo provides a generic way by which an ASP program may be used with
 
 ### Setup necessary libraries
 
+#### install the basic compilers and parsers
+```bash
+sudo apt-get install gcc-4.8 <br>
+sudo apt-get install g++-4.8
+sudo apt-get install bison
+sudo apt-get install re2c
+sudo apt-get install scons
+```
+
+
 4. Install gringo python module(4.5.4) (https://sourceforge.net/projects/potassco/files/gringo/4.5.4/).
 Download the file and unpack the archive, and do the following steps:
 ```bash
