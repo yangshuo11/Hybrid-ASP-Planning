@@ -93,9 +93,9 @@ rosrun rosoclingo-1.0 run-1.0.py --file ../mailbot/instances/graph_wp.lp --file 
 
 [![Experimental demo for Hybrid-ASP planning](https://res.cloudinary.com/marcomontalbano/image/upload/v1632130243/video_to_markdown/images/youtube--2WkFsKWoYWI-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/2WkFsKWoYWI "Experimental demo for Hybrid-ASP planning")
 
-2. The demonstration video of new task domain of object pickup is as follows:
+2. The demonstration video of Hybrid-ASP planning in new task domain of object pickup is as follows:
 
-[![Tiago object pickup task demonstration](https://res.cloudinary.com/marcomontalbano/image/upload/v1636131521/video_to_markdown/images/youtube--54F45bk8yRY-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/54F45bk8yRY "Tiago object pickup task demonstration")
+[![Hybrid-ASP planning for Tiago object pickup task](https://res.cloudinary.com/marcomontalbano/image/upload/v1636193144/video_to_markdown/images/youtube--bNp5u7in5n4-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/bNp5u7in5n4 "Hybrid-ASP planning for Tiago object pickup task")
 
 Contact email: 1024809808@qq.com
 
